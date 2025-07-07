@@ -1,0 +1,266 @@
+<!DOCTYPE html><html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <title>Kali Dictionary</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #111;
+      color: #fff;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #00ffc6;
+    }
+    .alphabet-menu {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 20px 0;
+    }
+    .alphabet-menu button {
+      background-color: #222;
+      border: 1px solid #444;
+      color: #0ff;
+      margin: 5px;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .alphabet-menu button:hover {
+      background-color: #00ff99;
+      color: #000;
+    }
+    .work-list {
+      margin-top: 30px;
+      text-align: center;
+    }
+    .work-item {
+      background: #1f1f1f;
+      padding: 10px;
+      margin: 10px auto;
+      width: fit-content;
+      border-radius: 8px;
+      cursor: pointer;
+      border-left: 4px solid #00ffcc;
+    }
+    .work-item:hover {
+      background: #2a2a2a;
+    }
+    #commandBox {
+      margin-top: 30px;
+      background: #2c2c2c;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      display: none;
+      position: relative;
+    }
+    #commandText {
+      font-size: 18px;
+      word-wrap: break-word;
+      background: #000;
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+    #copyBtn {
+      background-color: #00ffc6;
+      border: none;
+      padding: 8px 16px;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      color: #000;
+    }
+    #copyBtn:hover {
+      background-color: #00ccaa;
+    }
+  </style>
+</head>
+<body><h1>Kali Dictionary</h1><div class="alphabet-menu" id="alphabetMenu"></div>
+<div class="work-list" id="workList"></div>
+<div id="commandBox">
+  <div id="commandText"></div>
+  <button id="copyBtn" onclick="copyCommand()">Copy</button>
+</div><script>
+  const commands = {
+    A: {
+      "প্যাকেজ আপডেট": "apt update && apt upgrade",
+      "নতুন প্যাকেজ ইন্সটল": "apt install <package>",
+      "নেটওয়ার্কে কনেক্টেড ডিভাইস দেখায়": "arp -a",
+      "Wireless monitoring mode": "airmon-ng"
+    },
+    B: {
+      "Burp Suite চালু": "burpsuite",
+      "শেল চালু": "bash",
+      "ব্যাকগ্রাউন্ডে কমান্ড": "bg"
+    },
+    C: {
+      "টার্মিনাল ক্লিয়ার": "clear",
+      "ফাইল executable করা": "chmod +x filename.sh",
+      "ফাইল কপি": "cp file1 file2",
+      "Custom Password List টুল": "crunch"
+    },
+    D: {
+      "ডিরেক্টরি brute force": "dirb",
+      "DNS রেকর্ড খোঁজা": "dig",
+      "ডিস্ক স্পেস চেক": "df -h",
+      "DNS এনুমারেশন": "dnsenum"
+    },
+    E: {
+      "টার্মিনালে টেক্সট আউটপুট": 'echo "text"',
+      "Ettercap GUI": "ettercap -G",
+      "টার্মিনাল থেকে বের হওয়া": "exit"
+    },
+    F: {
+      "ফাইল খুঁজে বের করা": "find / -name file.txt",
+      "ZIP brute force": "fcrackzip",
+      "ওয়েব ব্রাউজার চালু": "firefox",
+      "FTP ক্লায়েন্ট": "ftp"
+    },
+    G: {
+      "ডিরেক্টরি brute force": "gobuster",
+      "GUI টেক্সট এডিটর": "gedit",
+      "GPG encryption": "gpg"
+    },
+    H: {
+      "RAM, CPU দেখার টুল": "htop",
+      "Password brute force": "hydra",
+      "DNS lookup": "host"
+    },
+    I: {
+      "IP চেক": "ifconfig",
+      "WiFi interface": "iwconfig",
+      "Firewall config": "iptables"
+    },
+    J: {
+      "Password Cracker": "john"
+    },
+    K: {
+      "প্রসেস বন্ধ": "kill <PID>",
+      "App kill": "killall firefox",
+      "WiFi স্নিফার": "kismet"
+    },
+    L: {
+      "ফাইল/ফোল্ডার লিস্ট": "ls",
+      "ফাইল লোকেট": "locate",
+      "ওপেন ফাইল চেক": "lsof"
+    },
+    M: {
+      "Metasploit চালু": "msfconsole",
+      "Manual পেতে": "man <command>",
+      "MAC address পরিবর্তন": "macchanger"
+    },
+    N: {
+      "Network স্ক্যানার": "nmap",
+      "Open port দেখানো": "netstat -tuln",
+      "Network tool": "nc / netcat"
+    },
+    O: {
+      "SSL টুল": "openssl",
+      "Vuln Scanner": "openvas",
+      "OS detect": "os-prober"
+    },
+    P: {
+      "Ping": "ping",
+      "Python": "python3",
+      "বর্তমান ডিরেক্টরি": "pwd"
+    },
+    Q: {
+      "Exit command": "quit"
+    },
+    R: {
+      "ফাইল রিমুভ": "rm file.txt",
+      "ফোল্ডার রিমুভ": "rmdir folder",
+      "Info gathering": "recon-ng",
+      "টার্মিনাল রিসেট": "reset"
+    },
+    S: {
+      "Apache চালু": "service apache2 start",
+      "SQL Injection Tool": "sqlmap",
+      "SSH Connect": "ssh user@host",
+      "Root পারমিশন": "sudo"
+    },
+    T: {
+      "Live Process": "top",
+      "Extract tar": "tar -xvf",
+      "Packet Sniffer": "tcpdump",
+      "Email Enumeration": "theharvester"
+    },
+    U: {
+      "System Info": "uname -a",
+      "Alternative Manage": "update-alternatives",
+      "User Manage": "usermod"
+    },
+    V: {
+      "Text Editor": "vim",
+      "Memory Forensic": "volatility"
+    },
+    W: {
+      "Download": "wget",
+      "User কে": "whoami",
+      "WiFi Hacking": "wifite",
+      "WPA config": "wpa_passphrase"
+    },
+    X: {
+      "Display Config": "xrandr",
+      "Clipboard": "xclip",
+      "Hydra GUI": "xhydra"
+    },
+    Y: {
+      "YouTube Download": "youtube-dl"
+    },
+    Z: {
+      "Network Scanner": "zmap",
+      "ZIP tools": "zip / unzip"
+    }
+  };
+
+  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
+  const menu = document.getElementById("alphabetMenu");
+  const workList = document.getElementById("workList");
+  const commandBox = document.getElementById("commandBox");
+  const commandText = document.getElementById("commandText");
+
+  alphabet.forEach(letter => {
+    const btn = document.createElement("button");
+    btn.textContent = letter;
+    btn.onclick = () => loadWorks(letter);
+    menu.appendChild(btn);
+  });
+
+  function loadWorks(letter) {
+    workList.innerHTML = '';
+    commandBox.style.display = 'none';
+    const workItems = commands[letter];
+    if (workItems) {
+      for (const [title, cmd] of Object.entries(workItems)) {
+        const div = document.createElement("div");
+        div.className = "work-item";
+        div.textContent = title;
+        div.onclick = () => showCommand(cmd);
+        workList.appendChild(div);
+      }
+    } else {
+      workList.innerHTML = "<p>এই লেটারে কোনো কমান্ড নেই।</p>";
+    }
+  }
+
+  function showCommand(cmd) {
+    commandText.textContent = cmd;
+    commandBox.style.display = "block";
+  }
+
+  function copyCommand() {
+    const cmd = commandText.textContent;
+    navigator.clipboard.writeText(cmd).then(() => {
+      alert("✅ কপি হয়েছে: " + cmd);
+    });
+  }
+</script></body>
+</html>
